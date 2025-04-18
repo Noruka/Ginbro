@@ -8,7 +8,7 @@
     
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding Text}"
+            <Label Text="{Binding Id}"
                    FontSize="25"
                    VerticalOptions="Center"
                    HorizontalOptions="Center"/>

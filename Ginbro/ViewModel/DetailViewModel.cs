@@ -2,11 +2,11 @@
 
 namespace Ginbro.ViewModel;
 
-[QueryProperty("Text", "Text")]
+[QueryProperty("Id", "Id")]
 public partial class DetailViewModel : ObservableObject
 {
     [ObservableProperty]
-    private string text;
+    private int id;
     
     
 }
