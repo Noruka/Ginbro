@@ -1,8 +1,8 @@
-using Ginbro.AIData;
-using Ginbro.AIModel;
 using System.Collections.ObjectModel;
 using Ginbro.AI_Data;
 using Ginbro.AI_Model;
+using Ginbro.AIData;
+using Ginbro.AIModel;
 
 namespace Ginbro.ViewModel;
 

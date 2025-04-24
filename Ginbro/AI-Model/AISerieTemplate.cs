@@ -1,5 +1,3 @@
-
-
 using SQLite;
 
 namespace Ginbro.AIModel;

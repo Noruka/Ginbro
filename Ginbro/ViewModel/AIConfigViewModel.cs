@@ -1,8 +1,6 @@
-
-using Ginbro.AI_Data;
-using Ginbro.AI_Model;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Ginbro.AI_Data;
 using Ginbro.AIData;
 using Ginbro.AIModel;
 using SQLite;

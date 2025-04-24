@@ -1,5 +1,3 @@
-
-using System.ComponentModel.DataAnnotations.Schema;
 using SQLite;
 
 namespace Ginbro.AIModel;

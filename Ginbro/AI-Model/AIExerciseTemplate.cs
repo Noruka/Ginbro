@@ -1,14 +1,13 @@
 using Ginbro.AIModel;
 using SQLite;
 
-namespace Ginbro.AI_Model
+namespace Ginbro.AI_Model;
+
+public class AIExerciseTemplate
 {
-    public class AIExerciseTemplate
-    {
-        [PrimaryKey] [AutoIncrement] public int Id { get; set; }
+    [PrimaryKey] [AutoIncrement] public int Id { get; set; }
 
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        [Ignore] public List<AISerie> Series { get; set; } = new List<AISerie>();
-    }
+    [Ignore] public List<AISerie> Series { get; set; } = new();
 }

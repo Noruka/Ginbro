@@ -1,13 +1,5 @@
 using Ginbro.AIModel;
 
-
-using Dapper;
-using Microsoft.Data.Sqlite;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Ginbro.AI_Model;
-using System;
-
 namespace Ginbro.AIData;
 
 public class AISerieDao : IDisposable
@@ -17,6 +9,11 @@ public class AISerieDao : IDisposable
     public AISerieDao(SqliteConnection connection)
     {
         _connection = connection;
+    }
+
+    public void Dispose()
+    {
+        _connection.Dispose();
     }
 
     public async Task<int> CreateAsync(AISerie serie)
@@ -62,10 +59,5 @@ public class AISerieDao : IDisposable
     {
         const string sql = "DELETE FROM AISerie WHERE Id = @Id";
         return await _connection.ExecuteAsync(sql, new { Id = id });
-    }
-
-    public void Dispose()
-    {
-        _connection.Dispose();
     }
 }

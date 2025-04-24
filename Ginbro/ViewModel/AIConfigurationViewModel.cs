@@ -1,26 +1,24 @@
-
+using System.Collections.ObjectModel;
 using Ginbro.AI_Data;
 using Ginbro.AI_Model;
-using System.Collections.ObjectModel;
 
-namespace Ginbro.ViewModel
+namespace Ginbro.ViewModel;
+
+public class AIConfigurationViewModel
 {
-    public class AIConfigurationViewModel
+    private readonly AIExerciseTemplateDao _exerciseTemplateDao;
+
+    public AIConfigurationViewModel(AIExerciseTemplateDao exerciseTemplateDao)
     {
-        private readonly AIExerciseTemplateDao _exerciseTemplateDao;
+        _exerciseTemplateDao = exerciseTemplateDao;
+    }
 
-        public AIConfigurationViewModel(AIExerciseTemplateDao exerciseTemplateDao)
-        {
-            _exerciseTemplateDao = exerciseTemplateDao;
-        }
+    public ObservableCollection<AIExerciseTemplate> ExerciseTemplates { get; set; } = new();
 
-        public ObservableCollection<AIExerciseTemplate> ExerciseTemplates { get; set; } = new();
-
-        public async Task LoadExerciseTemplates()
-        {
-            var templates = await _exerciseTemplateDao.GetAll();
-            ExerciseTemplates.Clear();
-            foreach (var template in templates) ExerciseTemplates.Add(template);
-        }
+    public async Task LoadExerciseTemplates()
+    {
+        var templates = await _exerciseTemplateDao.GetAll();
+        ExerciseTemplates.Clear();
+        foreach (var template in templates) ExerciseTemplates.Add(template);
     }
 }

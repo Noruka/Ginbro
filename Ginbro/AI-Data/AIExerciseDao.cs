@@ -1,4 +1,3 @@
-
 using Ginbro.AIModel;
 
 namespace Ginbro.AI_Data;

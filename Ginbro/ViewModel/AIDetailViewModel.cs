@@ -1,17 +1,10 @@
-
-
-using Ginbro.AI_Data;
-using Ginbro.AI_Model;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using Ginbro.AI_Data;
 using Ginbro.AIData;
 using Ginbro.AIModel;
-using Microsoft.Maui.Controls;
 
 namespace Ginbro.ViewModel;
 

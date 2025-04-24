@@ -1,11 +1,9 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Ginbro.AI_Data;
-using Ginbro.AI_Model;
 using Ginbro.AIModel;
 using Ginbro.Shared;
 using Ginbro.View;
-using SQLite;
 
 namespace Ginbro.ViewModel;
 
