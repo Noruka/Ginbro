@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ginbro.View.AIConfigPage"
+             xmlns:vm="clr-namespace:Ginbro.ViewModel"
+             xmlns:model="clr-namespace:Ginbro.AI_Model"
+             Title="Configuration">
+    
+    <ContentPage.BindingContext>
+        <vm:AIConfigViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="*,Auto">
+        <ListView ItemsSource="{Binding AITemplates}"
+                  SelectedItem="{Binding SelectedAITemplate}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Label Text="{Binding Name}"
+                                   VerticalOptions="Center" />
+                            
+                            <Button Grid.Column="1"
+                                    Text="Delete"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AIConfigViewModel}}, Path=DeleteAITemplateCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="Red"
+                                    TextColor="White"
+                                    />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <Button Grid.Row="1"
+                Text="Add Template"
+                Command="{Binding AddAITemplateCommand}"
+                Margin="10"
+                BackgroundColor="Green"
+                TextColor="White"/>
+    </Grid>
+    
+</ContentPage>

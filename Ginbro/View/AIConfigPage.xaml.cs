@@ -1,0 +1,17 @@
+csharp
+using Ginbro.Shared;
+using Ginbro.ViewModel;
+using Microsoft.Extensions.DependencyInjection;
+using SQLite;
+
+namespace Ginbro.View;
+
+public partial class AIConfigPage : ContentPage
+{
+    public AIConfigPage(SqliteConnectionFactory connectionFactory)
+    {
+        InitializeComponent();
+        var connection = connectionFactory.GetConnectionSync();
+        BindingContext = new AIConfigViewModel(connection);
+    }
+}

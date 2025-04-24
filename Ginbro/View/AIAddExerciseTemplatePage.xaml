@@ -1,0 +1,26 @@
+xaml
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ginbro.View.AIAddExerciseTemplatePage"
+             Title="Add Exercise Template">
+    <VerticalStackLayout>
+        <Entry x:Name="TemplateNameEntry" Placeholder="Template Name" Margin="10" Text="{Binding ExerciseTemplate.Name}"/>
+        <CollectionView x:Name="SeriesCollectionView" ItemsSource="{Binding Series}" Margin="10">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="LightGray" Padding="10">
+                        <VerticalStackLayout>
+                            <Entry Placeholder="Serie Name" Text="{Binding Name}" />
+                            <Entry Placeholder="KG" Text="{Binding Kg}" Keyboard="Numeric" />
+                            <Entry Placeholder="Repetitions" Text="{Binding Repetitions}" Keyboard="Numeric" />
+                            <CheckBox IsChecked="{Binding MuscleFailure}" />
+                            <Label Text="Muscle Failure"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Add Serie" Clicked="AddSerie_Clicked" Margin="10" />
+        <Button Text="Save" Clicked="Save_Clicked" Margin="10" />
+    </VerticalStackLayout>
+</ContentPage>

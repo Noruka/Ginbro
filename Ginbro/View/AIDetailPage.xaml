@@ -1,0 +1,59 @@
+xaml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ginbro.View.AIDetailPage"
+             xmlns:viewmodel="clr-namespace:Ginbro.ViewModel"
+             xmlns:model="clr-namespace:Ginbro.AI_Model"
+             x:DataType="viewmodel:AIDetailViewModel"
+             Title="Detail">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <VerticalStackLayout Grid.Row="0">
+        <StackLayout Padding="10" >
+            <Label Text="{Binding Exercise.Name}" FontSize="Large" FontAttributes="Bold" />
+
+            <Label x:Name="ExerciseDateLabel" />
+            <Label x:Name="ExerciseTimeLabel" />
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="10">
+            <Button x:Name="StartButton" Text="Start" Clicked="StartButton_Clicked" />
+            <Button x:Name="PauseButton" Text="Pause" Clicked="PauseButton_Clicked"/>
+            <Button x:Name="StopButton" Text="Stop" Clicked="StopButton_Clicked" />
+        </StackLayout>
+        <Button Text="Go Back" Command="{Binding GoBackCommand}"/>
+        </VerticalStackLayout>
+        <CollectionView Grid.Row="1" x:Name="SeriesCollectionView" ItemsSource="{Binding Series}">
+           <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:AISerie">
+                
+                    <Frame BorderColor="LightGray" Margin="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0">
+                                <Label Text="{Binding Name}" FontAttributes="Bold" />
+                                <Label Text="{Binding Kg, StringFormat='{0} KG'}" />
+                                <Label Text="{Binding Repetitions, StringFormat='{0} Reps'}" />
+                            </StackLayout>
+                            <CheckBox Grid.Column="1" IsChecked="{Binding MuscleFailure}" VerticalOptions="Center" IsEnabled="False" />
+                        </Grid>
+                    </Frame>
+
+
+
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>
+    <Button Grid.Row="2" Text="Add Serie" Command="{Binding AddAISerieCommand}"/>
+    </Grid>

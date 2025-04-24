@@ -1,0 +1,27 @@
+xaml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Ginbro.View.AIAddExercisePage"
+             Title="Add Exercise">
+    <Grid>
+        <CollectionView x:Name="TemplatesCollectionView"
+                        ItemsSource="{Binding ExerciseTemplates}"
+                        SelectionMode="Single"
+                        SelectionChanged="TemplatesCollectionView_SelectionChanged">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame CornerRadius="10" Margin="10">
+                        <Label Text="{Binding Name}" FontSize="Medium" />
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Save" 
+                Command="{Binding SaveExerciseCommand}"
+                Clicked="SaveButton_Clicked"
+                VerticalOptions="End" 
+                HorizontalOptions="Center" 
+                Margin="10" />
+    </Grid>
+</ContentPage>
