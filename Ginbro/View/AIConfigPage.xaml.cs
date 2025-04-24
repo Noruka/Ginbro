@@ -1,14 +1,12 @@
 csharp
-using Ginbro.Shared;
-using Ginbro.ViewModel;
-using Microsoft.Extensions.DependencyInjection;
-using SQLite;
-
 namespace Ginbro.View;
 
-public partial class AIConfigPage : ContentPage
+using Ginbro.Shared;
+using Ginbro.ViewModel;
+
+public partial class AIConfigPage : ContentPage 
 {
-    public AIConfigPage(SqliteConnectionFactory connectionFactory)
+    public AIConfigPage(SqliteConnectionFactory connectionFactory) 
     {
         InitializeComponent();
         var connection = connectionFactory.GetConnectionSync();

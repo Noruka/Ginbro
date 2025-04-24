@@ -1,19 +1,16 @@
 csharp
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SQLite;
 
-namespace Ginbro.AI_Model;
+namespace Ginbro.AIModel;
 
-public class AISerie
+public class AISerie 
 {
-    [Key]
+    [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
-    [Required]
     public string Name { get; set; }
     public decimal KG { get; set; }
     public int Repetitions { get; set; }
     public bool MuscleFailure { get; set; }
-    [ForeignKey("AIExercise")]
-    public int AIExerciseId { get; set; }
-    public AIExercise AIExercise {get; set;}
+    public int AIExerciseId { get; set; } 
 }

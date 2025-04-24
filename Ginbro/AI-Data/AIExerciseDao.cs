@@ -1,11 +1,7 @@
 csharp
-using Dapper;
-using Ginbro.AI_Model;
-using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Threading.Tasks;
+--- a/Ginbro/AI-Data/AIExerciseDao.cs
++++ b/Ginbro/AI-Data/AIExerciseDao.cs
+
 
 namespace Ginbro.AI_Data;
 

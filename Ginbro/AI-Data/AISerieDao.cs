@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 using Ginbro.AI_Model;
 using System;
 
-namespace Ginbro.AI_Data;
+namespace Ginbro.AIData;
 
-public class AISerieDao : IDisposable
-{
+public class AISerieDao : IDisposable {
     private readonly SqliteConnection _connection;
 
     public AISerieDao(SqliteConnection connection)

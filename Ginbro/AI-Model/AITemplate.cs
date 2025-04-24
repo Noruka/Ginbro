@@ -1,14 +1,13 @@
-csharp
-using System.ComponentModel.DataAnnotations;
+--- a/Ginbro/AI-Model/AITemplate.cs
++++ b/Ginbro/AI-Model/AITemplate.cs
 
-namespace Ginbro.AI_Model
-{
-    public class AITemplate
-    {
-        [Key]
-        public int Id { get; set; }
++namespace Ginbro.AIModel;
 
-        [Required]
-        public string Name { get; set; }
-    }
-}
++public class AITemplate
++{
++    [Key]
++    public int Id { get; set; }
++
++    [Required]
++    public string Name { get; set; }
++}
