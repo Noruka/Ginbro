@@ -9,9 +9,9 @@ public class AIExerciseDao : IDisposable
     private readonly SqliteConnectionFactory _connectionFactory;
     private bool disposed;
 
-    public AiExerciseDao(SqliteConnectionFactory connection)
+    public AIExerciseDao(SqliteConnectionFactory connection)
     {
-        _connection = connection;
+        _connectionFactory = connection;
     }
 
     public void Dispose()
