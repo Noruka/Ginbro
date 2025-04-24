@@ -14,31 +14,31 @@ public class AIExerciseTemplateDao
 
     public async Task<List<AIExerciseTemplate>> GetAllAsync()
     {
-        using var connection = _connectionFactory.CreateConnection();
+        using var connection = _connectionFactory.CreateAsyncConnectionAsync();
         return connection.Table<AIExerciseTemplate>().Include(x => x.Series).ToList();
     }
 
     public async Task<AIExerciseTemplate> GetByIdAsync(int id)
     {
-        using var connection = _connectionFactory.CreateConnection();
+        using var connection = _connectionFactory.CreateAsyncConnectionAsync();
         return connection.Table<AIExerciseTemplate>().Include(x => x.Series).FirstOrDefault(x => x.Id == id);
     }
 
     public async Task AddAsync(AIExerciseTemplate template)
     {
-        using var connection = _connectionFactory.CreateConnection();
+        using var connection = _connectionFactory.CreateAsyncConnectionAsync();
         connection.Insert(template);
     }
 
     public async Task UpdateAsync(AIExerciseTemplate template)
     {
-        using var connection = _connectionFactory.CreateConnection();
+        using var connection = _connectionFactory.CreateAsyncConnectionAsync();
         connection.Update(template);
     }
 
     public async Task DeleteAsync(AIExerciseTemplate template)
     {
-        using var connection = _connectionFactory.CreateConnection();
+        using var connection = _connectionFactory.CreateAsyncConnectionAsync();
         connection.Delete(template);
     }
 }

@@ -4,11 +4,11 @@ using Ginbro.AI_Model;
 
 namespace Ginbro.ViewModel;
 
-public class AIConfigurationViewModel
+public class AiConfigurationViewModel
 {
     private readonly AIExerciseTemplateDao _exerciseTemplateDao;
 
-    public AIConfigurationViewModel(AIExerciseTemplateDao exerciseTemplateDao)
+    public AiConfigurationViewModel(AIExerciseTemplateDao exerciseTemplateDao)
     {
         _exerciseTemplateDao = exerciseTemplateDao;
     }

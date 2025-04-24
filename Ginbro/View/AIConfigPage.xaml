@@ -7,7 +7,7 @@
              Title="Configuration">
 
     <ContentPage.BindingContext>
-        <vm:AIConfigViewModel />
+        <vm:AiConfigViewModel />
     </ContentPage.BindingContext>
 
     <Grid RowDefinitions="*,Auto">
@@ -27,7 +27,7 @@
 
                             <Button Grid.Column="1"
                                     Text="Delete"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AIConfigViewModel}}, Path=DeleteAITemplateCommand}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AiConfigViewModel}}, Path=DeleteAITemplateCommand}"
                                     CommandParameter="{Binding .}"
                                     BackgroundColor="Red"
                                     TextColor="White" />

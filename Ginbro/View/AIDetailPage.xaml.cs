@@ -9,13 +9,13 @@ namespace Ginbro.View;
 public partial class AIDetailPage : ContentPage, INavigationParameter
 {
     private readonly SqliteConnectionFactory _connectionFactory;
-    private readonly AIDetailViewModel _viewModel;
+    private readonly AiDetailViewModel _viewModel;
 
     public AIDetailPage(SqliteConnectionFactory connectionFactory)
     {
         InitializeComponent();
         _connectionFactory = connectionFactory;
-        _viewModel = new AIDetailViewModel(_connectionFactory.GetConnectionSync());
+        _viewModel = new AiDetailViewModel(_connectionFactory.GetConnectionSync());
         BindingContext = _viewModel;
         Loaded += AIDetailPage_Loaded;
     }

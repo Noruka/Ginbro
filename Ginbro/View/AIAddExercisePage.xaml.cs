@@ -6,9 +6,9 @@ namespace Ginbro.View;
 
 public partial class AIAddExercisePage : ContentPage
 {
-    private readonly AIAddExerciseViewModel _viewModel;
+    private readonly AiAddExerciseViewModel _viewModel;
 
-    public AIAddExercisePage(AIAddExerciseViewModel viewModel)
+    public AIAddExercisePage(AiAddExerciseViewModel viewModel)
     {
         InitializeComponent();
         _viewModel = viewModel;

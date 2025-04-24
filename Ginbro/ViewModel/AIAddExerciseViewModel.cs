@@ -5,12 +5,12 @@ using Ginbro.AIModel;
 
 namespace Ginbro.ViewModel;
 
-public class AIAddExerciseViewModel
+public abstract class AiAddExerciseViewModel
 {
-    private readonly AIExerciseDao _exerciseDao;
+    private readonly AiExerciseDao _exerciseDao;
     private readonly AIExerciseTemplateDao _exerciseTemplateDao;
 
-    public AIAddExerciseViewModel(AIExerciseTemplateDao exerciseTemplateDao, AIExerciseDao exerciseDao)
+    public AiAddExerciseViewModel(AIExerciseTemplateDao exerciseTemplateDao, AiExerciseDao exerciseDao)
     {
         _exerciseTemplateDao = exerciseTemplateDao;
         _exerciseDao = exerciseDao;

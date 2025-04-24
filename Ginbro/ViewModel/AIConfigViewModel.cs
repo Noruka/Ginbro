@@ -7,7 +7,7 @@ using SQLite;
 
 namespace Ginbro.ViewModel;
 
-public class AIConfigViewModel(SQLiteConnection connection) : IDisposable
+public class AiConfigViewModel(SQLiteConnection connection) : IDisposable
 {
     private readonly AISerieTemplateDao _aiSerieTemplateDao = new AISerieTemplateDao(connection);
     private readonly AITemplateDao _aiTemplateDao = new AITemplateDao(connection);

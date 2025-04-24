@@ -11,6 +11,6 @@ public partial class AIConfigPage : ContentPage
     {
         InitializeComponent();
         var connection = connectionFactory.GetConnectionSync();
-        BindingContext = new AIConfigViewModel(connection);
+        BindingContext = new AiConfigViewModel(connection);
     }
 }

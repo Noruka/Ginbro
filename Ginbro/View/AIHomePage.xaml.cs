@@ -8,13 +8,13 @@ namespace Ginbro.View;
 public partial class AIHomePage : ContentPage
 {
     private readonly SqliteConnectionFactory _connectionFactory;
-    private readonly AIHomeViewModel _viewModel;
+    private readonly AiHomeViewModel _viewModel;
 
     public AIHomePage(SqliteConnectionFactory connectionFactory)
     {
         InitializeComponent();
         _connectionFactory = connectionFactory;
-        _viewModel = new AIHomeViewModel(_connectionFactory.GetConnectionSync());
+        _viewModel = new AiHomeViewModel(_connectionFactory.GetConnectionSync());
         BindingContext = _viewModel;
         _viewModel.LoadExercises();
 

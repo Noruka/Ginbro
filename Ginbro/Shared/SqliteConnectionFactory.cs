@@ -12,7 +12,7 @@ public class SqliteConnectionFactory
         _databasePath = Path.Combine(FileSystem.AppDataDirectory, "ginbro.db3");
     }
 
-    public async Task<ISQLiteAsyncConnection> CreateConnectionAsync()
+    public async Task<ISQLiteAsyncConnection> CreateAsyncConnectionAsync()
     {
         var connection = new SQLiteAsyncConnection(_databasePath,
             SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache);
@@ -20,15 +20,19 @@ public class SqliteConnectionFactory
         return connection;
     }
 
-    public SQLiteConnection CreateConnection()
+    public ISQLiteAsyncConnection CreateAsyncConnection()
     {
-        var connection = new SQLiteConnection(_databasePath,
+        return new SQLiteAsyncConnection(Path.Combine(FileSystem.AppDataDirectory, "ginbro.db3"),
             SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache);
-        CreateTables(connection);
-        return connection;
     }
 
-    private async Task CreateTablesAsync(ISQLiteAsyncConnection connection)
+    public ISQLiteConnection CreateConnection()
+    {
+        return new SQLiteConnection(Path.Combine(FileSystem.AppDataDirectory, "ginbro.db3"),
+            SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache);
+    }
+
+    public async Task CreateTablesAsync(ISQLiteAsyncConnection connection)
     {
         await connection.CreateTableAsync<AIExercise>();
         await connection.CreateTableAsync<AISerie>();
@@ -36,7 +40,7 @@ public class SqliteConnectionFactory
         await connection.CreateTableAsync<AISerieTemplate>();
     }
 
-    private void CreateTables(SQLiteConnection connection)
+    public void CreateTables(SQLiteConnection connection)
     {
         connection.CreateTable<AIExercise>();
         connection.CreateTable<AISerie>();

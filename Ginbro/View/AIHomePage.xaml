@@ -5,7 +5,7 @@
              xmlns:viewmodel="clr-namespace:Ginbro.ViewModel"
              x:Class="Ginbro.View.AIHomePage"
              Title="Home"
-             x:DataType="viewmodel:AIHomeViewModel">
+             x:DataType="viewmodel:AiHomeViewModel">
     <VerticalStackLayout>
 
         <Grid>

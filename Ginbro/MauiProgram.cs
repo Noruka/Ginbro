@@ -25,7 +25,7 @@ public static class MauiProgram
 #endif
 
         builder.Services.AddSingleton<SqliteConnectionFactory>();
-        builder.Services.AddSingleton(s => s.GetRequiredService<SqliteConnectionFactory>().CreateConnection());
+        builder.Services.AddSingleton(s => s.GetRequiredService<SqliteConnectionFactory>().CreateAsyncConnectionAsync());
 
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<MainViewModel>();
@@ -35,15 +35,15 @@ public static class MauiProgram
 
         //AI Features
         //DAOS
-        builder.Services.AddTransient<AIExerciseDao>();
+        builder.Services.AddTransient<AiExerciseDao>();
         builder.Services.AddTransient<AISerieDao>();
         builder.Services.AddTransient<AITemplateDao>();
         builder.Services.AddTransient<AISerieTemplateDao>();
 
         //ViewModels
-        builder.Services.AddTransient<AIConfigViewModel>();
-        builder.Services.AddTransient<AIHomeViewModel>();
-        builder.Services.AddTransient<AIDetailViewModel>();
+        builder.Services.AddTransient<AiConfigViewModel>();
+        builder.Services.AddTransient<AiHomeViewModel>();
+        builder.Services.AddTransient<AiDetailViewModel>();
 
         //Views
         builder.Services.AddTransient<AIConfigPage>();

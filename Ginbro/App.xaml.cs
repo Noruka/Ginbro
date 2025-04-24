@@ -1,5 +1,4 @@
-﻿using Ginbro.Model;
-using Ginbro.Shared;
+﻿using Ginbro.Shared;
 using SQLite;
 
 namespace Ginbro;
@@ -19,9 +18,8 @@ public partial class App : Application
 
     protected override void OnStart()
     {
-        ISQLiteConnection database = _connection.CreateConnection();
-        database.CreateTable<ExerciseDto>();
-
+        var database = _connection.CreateConnection();
+        _connection.CreateTables((SQLiteConnection)database);
         base.OnStart();
     }
 }

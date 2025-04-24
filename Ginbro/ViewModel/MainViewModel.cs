@@ -29,7 +29,7 @@ public partial class MainViewModel : ObservableObject
         if (string.IsNullOrWhiteSpace(Text))
             return;
 
-        var database = _connection.CreateConnection();
+        var database = await _connection.CreateAsyncConnectionAsync();
 
         var ticketDto = new ExerciseDto
         {
@@ -53,7 +53,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task Delete(Exercise exercise)
     {
-        ISQLiteAsyncConnection database = _connection.CreateConnection();
+        ISQLiteAsyncConnection database = await _connection.CreateAsyncConnectionAsync();
 
         var exerciseDto = await database.Table<ExerciseDto>().FirstOrDefaultAsync(w => w.Id == exercise.Id);
 
@@ -71,7 +71,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task LoadExercises()
     {
-        ISQLiteAsyncConnection database = _connection.CreateConnection();
+        ISQLiteAsyncConnection database = await _connection.CreateAsyncConnectionAsync();
         _items.Clear();
 
         var exercisesDtos = await database.Table<ExerciseDto>().ToListAsync();

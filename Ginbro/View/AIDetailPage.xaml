@@ -6,7 +6,7 @@ xaml
              x:Class="Ginbro.View.AIDetailPage"
              xmlns:viewmodel="clr-namespace:Ginbro.ViewModel"
              xmlns:model="clr-namespace:Ginbro.AI_Model"
-             x:DataType="viewmodel:AIDetailViewModel"
+             x:DataType="viewmodel:AiDetailViewModel"
              Title="Detail">
     <Grid>
         <Grid.RowDefinitions>

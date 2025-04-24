@@ -1,13 +1,14 @@
 using Ginbro.AIModel;
+using Ginbro.Shared;
 
 namespace Ginbro.AI_Data;
 
-public class AIExerciseDao : IDisposable
+public class AiExerciseDao : IDisposable
 {
-    private readonly SqliteConnection _connection;
+    private readonly SqliteConnectionFactory _connection;
     private bool disposed;
 
-    public AIExerciseDao(SqliteConnection connection)
+    public AiExerciseDao(SqliteConnectionFactory connection)
     {
         _connection = connection;
     }
@@ -67,7 +68,7 @@ public class AIExerciseDao : IDisposable
         }
     }
 
-    ~AIExerciseDao()
+    ~AiExerciseDao()
     {
         Dispose(false);
     }

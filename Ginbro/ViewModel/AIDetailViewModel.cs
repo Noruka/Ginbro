@@ -8,9 +8,9 @@ using Ginbro.AIModel;
 
 namespace Ginbro.ViewModel;
 
-public class AIDetailViewModel : INotifyPropertyChanged
+public class AiDetailViewModel : INotifyPropertyChanged
 {
-    private readonly AIExerciseDao _exerciseDao;
+    private readonly AiExerciseDao _exerciseDao;
     private readonly AISerieDao _serieDao;
     private readonly Stopwatch _stopwatch;
     private readonly AITemplateDao _templateDao;
@@ -22,7 +22,7 @@ public class AIDetailViewModel : INotifyPropertyChanged
     private TimeSpan _timer;
 
 
-    public AIDetailViewModel(AIExerciseDao exerciseDao, AISerieDao serieDao, AITemplateDao templateDao)
+    public AiDetailViewModel(AiExerciseDao exerciseDao, AISerieDao serieDao, AITemplateDao templateDao)
     {
         _exerciseDao = exerciseDao;
         _serieDao = serieDao;

@@ -7,15 +7,15 @@ using Ginbro.View;
 
 namespace Ginbro.ViewModel;
 
-public class AIHomeViewModel
+public class AiHomeViewModel
 {
     private readonly SqliteConnectionFactory _connectionFactory;
-    private readonly AIExerciseDao _exerciseDao;
+    private readonly AiExerciseDao _exerciseDao;
 
-    public AIHomeViewModel(SqliteConnection connectionFactory)
+    public AiHomeViewModel(SqliteConnectionFactory connection)
     {
-        _connectionFactory = new SqliteConnectionFactory();
-        _exerciseDao = new AIExerciseDao(_connectionFactory.GetConnectionSync());
+        _connectionFactory = connection;
+        _exerciseDao = new AiExerciseDao(_connectionFactory.GetConnectionSync());
         AddExerciseCommand = new Command(async () => await AddExercise());
         DeleteExerciseCommand = new Command<AIExercise>(async exercise => await DeleteExercise(exercise));
         GoToConfigCommand = new Command(async () => await GoToConfig());

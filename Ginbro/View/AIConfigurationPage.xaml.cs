@@ -6,9 +6,9 @@ namespace Ginbro.View;
 
 public partial class AIConfigurationPage : ContentPage
 {
-    private readonly AIConfigurationViewModel _viewModel;
+    private readonly AiConfigurationViewModel _viewModel;
 
-    public AIConfigurationPage(AIConfigurationViewModel viewModel)
+    public AIConfigurationPage(AiConfigurationViewModel viewModel)
     {
         InitializeComponent();
         _viewModel = viewModel;
