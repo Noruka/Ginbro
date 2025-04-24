@@ -1,63 +1,64 @@
 using Ginbro.AIModel;
+using Ginbro.Shared;
+using SQLite;
 
-namespace Ginbro.AIData;
-
-public class AISerieDao : IDisposable
+namespace Ginbro.AIData
 {
-    private readonly SqliteConnection _connection;
-
-    public AISerieDao(SqliteConnection connection)
+    public class AISerieDao : IDisposable
     {
-        _connection = connection;
-    }
+        private readonly SqliteConnectionFactory _connectionFactory;
+        private SQLiteAsyncConnection _connection;
 
-    public void Dispose()
-    {
-        _connection.Dispose();
-    }
+        public AISerieDao(SqliteConnectionFactory connectionFactory)
+        {
+            _connectionFactory = connectionFactory;
+            _connection = _connectionFactory.CreateConnection();
+        }
 
-    public async Task<int> CreateAsync(AISerie serie)
-    {
-        const string sql =
-            "INSERT INTO AISerie (Name, KG, Repetitions, MuscleFailure, AIExerciseId) VALUES (@Name, @KG, @Repetitions, @MuscleFailure, @AIExerciseId); SELECT last_insert_rowid();";
-        return await _connection.ExecuteScalarAsync<int>(sql, serie);
-    }
+        public void Dispose()
+        {
+            _connection?.CloseAsync();
+        }
 
-    public async Task<IEnumerable<AISerie>> ReadAllAsync()
-    {
-        const string sql = "SELECT Id, Name, KG, Repetitions, MuscleFailure, AIExerciseId FROM AISerie";
-        return await _connection.QueryAsync<AISerie>(sql);
-    }
+        public async Task<int> CreateAsync(AISerie serie)
+        {
+            await _connection.InsertAsync(serie);
+            return serie.Id;
+        }
 
-    public async Task<AISerie> ReadByIdAsync(int id)
-    {
-        const string sql = "SELECT Id, Name, KG, Repetitions, MuscleFailure, AIExerciseId FROM AISerie WHERE Id = @Id";
-        return await _connection.QueryFirstOrDefaultAsync<AISerie>(sql, new { Id = id });
-    }
+        public async Task<List<AISerie>> ReadAllAsync()
+        {
+            return await _connection.Table<AISerie>().ToListAsync();
+        }
 
-    public async Task<IEnumerable<AISerie>> ReadByExerciseIdAsync(int exerciseId)
-    {
-        const string sql =
-            "SELECT Id, Name, KG, Repetitions, MuscleFailure, AIExerciseId FROM AISerie WHERE AIExerciseId = @AIExerciseId";
-        return await _connection.QueryAsync<AISerie>(sql, new { AIExerciseId = exerciseId });
-    }
+        public async Task<AISerie> ReadByIdAsync(int id)
+        {
+            return await _connection.FindAsync<AISerie>(id);
+        }
 
-    public async Task<int> UpdateAsync(AISerie serie)
-    {
-        const string sql = @"
-            UPDATE AISerie SET 
-                Name = @Name, 
-                KG = @KG, 
-                Repetitions = @Repetitions, 
-                MuscleFailure = @MuscleFailure, 
-                AIExerciseId = @AIExerciseId
-            WHERE Id = @Id";
-        return await _connection.ExecuteAsync(sql, serie);
-    }
+        public async Task<List<AISerie>> ReadByExerciseIdAsync(int exerciseId)
+        {
+            return await _connection.Table<AISerie>().Where(x => x.AIExerciseId == exerciseId).ToListAsync();
+        }
 
-    public async Task<int> DeleteAsync(int id)
-    {
-        const string sql = "DELETE FROM AISerie WHERE Id = @Id";
-        return await _connection.ExecuteAsync(sql, new { Id = id });
+        public async Task UpdateAsync(AISerie serie)
+        {
+            await _connection.UpdateAsync(serie);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _connection.DeleteAsync<AISerie>(id);
+        }
+
+        public async Task DeleteAsync(AISerie serie)
+        {
+            await _connection.DeleteAsync(serie);
+        }
+        
+        public async Task<List<AISerie>> GetAllByExerciseId(int exerciseId)
+        {
+            return await _connection.Table<AISerie>().Where(s => s.AIExerciseId == exerciseId).ToListAsync();
+        }
     }
 }

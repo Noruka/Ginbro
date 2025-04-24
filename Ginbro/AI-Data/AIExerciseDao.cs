@@ -1,11 +1,12 @@
-using Ginbro.AIModel;
+﻿using Ginbro.AIModel;
 using Ginbro.Shared;
+using SQLite;
 
-namespace Ginbro.AI_Data;
+namespace Ginbro.AIData;
 
-public class AiExerciseDao : IDisposable
+public class AIExerciseDao : IDisposable
 {
-    private readonly SqliteConnectionFactory _connection;
+    private readonly SqliteConnectionFactory _connectionFactory;
     private bool disposed;
 
     public AiExerciseDao(SqliteConnectionFactory connection)
@@ -19,80 +20,53 @@ public class AiExerciseDao : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    public async Task<int> CreateAsync(AIExercise exercise)
+    public async Task<int> Create(AIExercise exercise)
     {
-        var sql = @"INSERT INTO AIExercise (Name, Date, TimeElapsed) VALUES (@Name, @Date, @TimeElapsed);
-                    SELECT last_insert_rowid();";
-        return await _connection.ExecuteScalarAsync<int>(sql, exercise);
+        using var connection = _connectionFactory.CreateConnection();
+        return await connection.InsertAsync(exercise);
     }
 
-    public async Task<List<AIExercise>> ReadAllAsync()
+    public async Task<List<AIExercise>> GetAll()
     {
-        var sql = "SELECT * FROM AIExercise";
-        return (await _connection.QueryAsync<AIExercise>(sql)).AsList();
+        using var connection = _connectionFactory.CreateConnection();
+        return await connection.Table<AIExercise>().ToListAsync();
     }
 
-    public async Task<AIExercise> ReadByIdAsync(int id)
+    public async Task<AIExercise> GetById(int id)
     {
-        var sql = "SELECT * FROM AIExercise WHERE Id = @Id";
-        return await _connection.QueryFirstOrDefaultAsync<AIExercise>(sql, new { Id = id });
+        using var connection = _connectionFactory.CreateConnection();
+        return await connection.FindAsync<AIExercise>(id);
     }
 
-    public async Task UpdateAsync(AIExercise exercise)
+    public async Task Update(AIExercise exercise)
     {
-        var sql = @"UPDATE AIExercise 
-                    SET Name = @Name, 
-                        Date = @Date, 
-                        TimeElapsed = @TimeElapsed 
-                    WHERE Id = @Id";
-        await _connection.ExecuteAsync(sql, exercise);
+        using var connection = _connectionFactory.CreateConnection();
+        await connection.UpdateAsync(exercise);
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task Delete(int id)
     {
-        var sql = "DELETE FROM AIExercise WHERE Id = @Id";
-        await _connection.ExecuteAsync(sql, new { Id = id });
+        using var connection = _connectionFactory.CreateConnection();
+        await connection.DeleteAsync<AIExercise>(id);
+    }
+    
+        public async Task Delete(AIExercise exercise)
+    {
+        using var connection = _connectionFactory.CreateConnection();
+        await connection.DeleteAsync(exercise);
     }
 
     protected virtual void Dispose(bool disposing)
     {
         if (!disposed)
         {
-            if (disposing)
-            {
-                _connection.Close();
-                _connection.Dispose();
-            }
-
+          
             disposed = true;
         }
     }
 
-    ~AiExerciseDao()
+    ~AIExerciseDao()
     {
         Dispose(false);
-    }
-
-    public async Task DeleteAsync(AIExercise exercise)
-    {
-        var sql = "DELETE FROM AIExercise WHERE Id = @Id";
-        await _connection.ExecuteAsync(sql, new { exercise.Id });
-    }
-
-    public async Task<List<AIExercise>> ReadAllWithSeriesAsync()
-    {
-        var sql = "SELECT e.*, s.* FROM AIExercise e LEFT JOIN AISerie s ON e.Id = s.AIExerciseId";
-        var exercises = await _connection.QueryAsync<AIExercise, AISerie, AIExercise>(
-            sql, (exercise, serie) =>
-            {
-                exercise.Series.Add(serie);
-                return exercise;
-            }, splitOn: "Id");
-        return exercises.GroupBy(e => e.Id).Select(g =>
-        {
-            var e = g.First();
-            e.Series = g.Select(x => x.Series.FirstOrDefault()).Where(s => s != null).ToList();
-            return e;
-        }).ToList();
     }
 }

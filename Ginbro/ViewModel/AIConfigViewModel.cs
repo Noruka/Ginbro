@@ -1,27 +1,36 @@
-using System.Collections.ObjectModel;
-using System.Windows.Input;
-using Ginbro.AI_Data;
-using Ginbro.AIData;
+using Ginbro.Shared;
 using Ginbro.AIModel;
-using SQLite;
+using Ginbro.AIData;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Input;
 
 namespace Ginbro.ViewModel;
 
-public class AiConfigViewModel(SQLiteConnection connection) : IDisposable
+public class AIConfigViewModel : INotifyPropertyChanged, IDisposable
 {
-    private readonly AISerieTemplateDao _aiSerieTemplateDao = new AISerieTemplateDao(connection);
-    private readonly AITemplateDao _aiTemplateDao = new AITemplateDao(connection);
+    private readonly SqliteConnectionFactory _connectionFactory;
+    private readonly AISerieTemplateDao _aiSerieTemplateDao;
+    private readonly AITemplateDao _aiTemplateDao;
 
-    public ObservableCollection<AITemplate> AITemplates { get; set; } = new();
+    public ObservableCollection<AITemplate> AITemplates { get; private set; } = new ObservableCollection<AITemplate>();
+    public ICommand AddAITemplateCommand { get; private set; }
+    public ICommand DeleteAITemplateCommand { get; private set; }
+    public ICommand UpdateAITemplateCommand { get; private set; }
 
-    public ICommand AddAITemplateCommand { get; private set; } = new Command(async () => await AddAITemplate());
 
-    public ICommand DeleteAITemplateCommand { get; private set; } =
-        new Command<AITemplate>(async template => await DeleteAITemplate(template));
+    public AIConfigViewModel(SqliteConnectionFactory connectionFactory)
+    {
+        _connectionFactory = connectionFactory;
+        _aiSerieTemplateDao = new AISerieTemplateDao(_connectionFactory);
+        _aiTemplateDao = new AITemplateDao(_connectionFactory);
 
-    public ICommand UpdateAITemplateCommand { get; private set; } =
-        new Command<AITemplate>(async template => await UpdateAITemplate(template));
-
+        AddAITemplateCommand = new Command(async () => await AddAITemplate());
+        DeleteAITemplateCommand = new Command<AITemplate>(async (template) => await DeleteAITemplate(template));
+        UpdateAITemplateCommand = new Command<AITemplate>(async (template) => await UpdateAITemplate(template));
+        
+        LoadAITemplates();
+    }
 
     public void Dispose()
     {
@@ -29,19 +38,13 @@ public class AiConfigViewModel(SQLiteConnection connection) : IDisposable
         _aiSerieTemplateDao.Dispose();
     }
 
-    private async Task AddAITemplate()
-    {
-        // Implement logic to add a new template
-        var newTemplate = new AITemplate { Name = "New Template" };
-        await _aiTemplateDao.Create(newTemplate);
-        AITemplates.Add(newTemplate);
-    }
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
+    private async Task AddAITemplate() => await _aiTemplateDao.Create(new AITemplate { Name = "New Template" });
     private async Task DeleteAITemplate(AITemplate template)
-    {
-        // Implement logic to delete a template
+    {    
         if (template is null) return;
-
         await _aiTemplateDao.Delete(template.Id);
         AITemplates.Remove(template);
     }
@@ -52,11 +55,12 @@ public class AiConfigViewModel(SQLiteConnection connection) : IDisposable
         if (template is null) return;
 
         await _aiTemplateDao.Update(template);
+        OnPropertyChanged(nameof(AITemplates));
     }
 
     public async Task LoadAITemplates()
     {
         var templates = await _aiTemplateDao.ReadAll();
-        foreach (var template in templates) AITemplates.Add(template);
+        foreach (var template in templates) { AITemplates.Add(template);}
     }
 }

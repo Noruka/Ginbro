@@ -1,33 +1,27 @@
 csharp
-﻿using Ginbro.AI_Model;
-using Ginbro.Shared;
+﻿using Ginbro.Shared;
 using Ginbro.ViewModel;
 
 namespace Ginbro.View;
 
 public partial class AIHomePage : ContentPage
 {
-    private readonly SqliteConnectionFactory _connectionFactory;
-    private readonly AiHomeViewModel _viewModel;
+    private readonly AiHomeViewModel _viewModel; 
 
-    public AIHomePage(SqliteConnectionFactory connectionFactory)
+    public AIHomePage(AiHomeViewModel viewModel)
     {
         InitializeComponent();
-        _connectionFactory = connectionFactory;
-        _viewModel = new AiHomeViewModel(_connectionFactory.GetConnectionSync());
+        _viewModel = viewModel;
         BindingContext = _viewModel;
         _viewModel.LoadExercises();
 
-        _viewModel.GoToConfigCommand =
-            new Command(async () => await Navigation.PushAsync(new AIConfigPage(_connectionFactory)));
-
-        _viewModel.GoToDetailCommand = new Command<int>(async exerciseId =>
-            await Navigation.PushAsync(new AIDetailPage(_connectionFactory, exerciseId)));
-
-        _viewModel.AddExerciseCommand =
-            new Command(async () => await Navigation.PushAsync(new AIAddExercisePage(_connectionFactory)));
     }
 
+    private async void GoToConfig_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(AIConfigPage));
+    }
+    
     protected override void OnAppearing()
     {
         base.OnAppearing();

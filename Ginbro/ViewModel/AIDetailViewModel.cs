@@ -2,38 +2,47 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
-using Ginbro.AI_Data;
 using Ginbro.AIData;
 using Ginbro.AIModel;
+using Ginbro.Shared;
 
 namespace Ginbro.ViewModel;
 
-public class AiDetailViewModel : INotifyPropertyChanged
+public class AiDetailViewModel : INotifyPropertyChanged, IDisposable
 {
-    private readonly AiExerciseDao _exerciseDao;
+    private readonly AiExerciseDao _aiExerciseDao;
     private readonly AISerieDao _serieDao;
     private readonly Stopwatch _stopwatch;
     private readonly AITemplateDao _templateDao;
     private CancellationTokenSource _cancellationTokenSource;
+    private readonly SqliteConnectionFactory _connectionFactory;
 
 
     private AIExercise _exercise;
 
     private TimeSpan _timer;
 
+    private bool _isTimerRunning;
 
-    public AiDetailViewModel(AiExerciseDao exerciseDao, AISerieDao serieDao, AITemplateDao templateDao)
+
+    public AiDetailViewModel(SqliteConnectionFactory connectionFactory)
     {
-        _exerciseDao = exerciseDao;
-        _serieDao = serieDao;
-        _templateDao = templateDao;
+        _connectionFactory = connectionFactory;
+        _aiExerciseDao = new AiExerciseDao(_connectionFactory);
+        _serieDao = new AISerieDao(_connectionFactory);
+        _templateDao = new AITemplateDao(_connectionFactory);
+
         _stopwatch = new Stopwatch();
         _cancellationTokenSource = new CancellationTokenSource();
-        StartTimerCommand = new Command(async () => await StartTimer());
-        StopTimerCommand = new Command(async () => await StopTimer());
-        PauseTimerCommand = new Command(() => PauseTimer());
-        GoBackCommand = new Command(async () => await GoBack());
+        StartTimerCommand = new Command(StartTimer);
+        StopTimerCommand = new Command(StopTimer);
+        PauseTimerCommand = new Command(PauseTimer);
+        GoBackCommand = new Command(GoBack);
+        AddAISerieCommand = new Command(AddAISerie);
+
     }
+
+    public event PropertyChangedEventHandler PropertyChanged;
 
     public AIExercise Exercise
     {
@@ -41,11 +50,11 @@ public class AiDetailViewModel : INotifyPropertyChanged
         set
         {
             _exercise = value;
-            OnPropertyChanged(nameof(Exercise));
+            OnPropertyChanged();
         }
     }
 
-    public ObservableCollection<AISerie> Series { get; set; } = new();
+    public ObservableCollection<AISerie> Series { get; } = new();
 
     public TimeSpan Timer
     {
@@ -53,33 +62,40 @@ public class AiDetailViewModel : INotifyPropertyChanged
         set
         {
             _timer = value;
-            OnPropertyChanged(nameof(Timer));
+            OnPropertyChanged();
         }
     }
 
-    public bool IsTimerRunning { get; set; }
+    public bool IsTimerRunning
+    {
+        get => _isTimerRunning;
+        set
+        {
+            _isTimerRunning = value;
+            OnPropertyChanged();
+        }
+    }
 
-    public ICommand AddAISerieCommand { get; private set; }
+    public ICommand AddAISerieCommand { get; }
     public ICommand DeleteAISerieCommand { get; private set; }
     public ICommand UpdateAISerieCommand { get; private set; }
-    public ICommand StartTimerCommand { get; private set; }
-    public ICommand StopTimerCommand { get; private set; }
-    public ICommand PauseTimerCommand { get; private set; }
-    public ICommand GoBackCommand { get; private set; }
+    public ICommand StartTimerCommand { get; }
+    public ICommand StopTimerCommand { get; }
+    public ICommand PauseTimerCommand { get; }
+    public ICommand GoBackCommand { get; }
 
-    public event PropertyChangedEventHandler PropertyChanged;
 
-    protected void OnPropertyChanged(string propertyName)
+    protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     public async Task LoadExercise(int exerciseId)
     {
-        Exercise = await _exerciseDao.ReadByIdAsync(exerciseId);
+        Exercise = await _aiExerciseDao.ReadByIdAsync(exerciseId);
         await LoadSeries(exerciseId);
     }
-
+    
     public async Task LoadSeries(int exerciseId)
     {
         if (Exercise != null)

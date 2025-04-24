@@ -1,56 +1,64 @@
-using Ginbro.AIModel;
+﻿using Ginbro.AIModel;
+using Ginbro.Shared;
+using SQLite;
 
-namespace Ginbro.AIData;
-
-public class AISerieTemplateDao : IDisposable
+namespace Ginbro.AIData
 {
-    private readonly SqliteConnection _connection;
-
-    public AISerieTemplateDao(SqliteConnection connection)
+    public class AISerieTemplateDao : IDisposable
     {
-        _connection = connection;
-    }
+        private readonly SqliteConnectionFactory _connectionFactory;
 
-    public void Dispose()
-    {
-        _connection.Dispose();
-    }
+        public AISerieTemplateDao(SqliteConnectionFactory connectionFactory)
+        {
+            _connectionFactory = connectionFactory;
+        }
 
-    public async Task<int> Create(AISerieTemplate serieTemplate)
-    {
-        var sql =
-            "INSERT INTO AISerieTemplate (Name, KG, Repetitions, MuscleFailure, AITemplateId) VALUES (@Name, @KG, @Repetitions, @MuscleFailure, @AITemplateId); SELECT last_insert_rowid();";
-        return await _connection.ExecuteScalarAsync<int>(sql, serieTemplate);
-    }
+        public void Dispose()
+        {
+            
+        }
 
-    public async Task<IEnumerable<AISerieTemplate>> ReadAll()
-    {
-        var sql = "SELECT * FROM AISerieTemplate";
-        return await _connection.QueryAsync<AISerieTemplate>(sql);
-    }
+        public async Task<int> Create(AISerieTemplate serieTemplate)
+        {
+            using SQLiteAsyncConnection connection = _connectionFactory.CreateConnection();
+            return await connection.InsertAsync(serieTemplate);
+        }
 
-    public async Task<AISerieTemplate> ReadById(int id)
-    {
-        var sql = "SELECT * FROM AISerieTemplate WHERE Id = @Id";
-        return await _connection.QueryFirstOrDefaultAsync<AISerieTemplate>(sql, new { Id = id });
-    }
+        public async Task<List<AISerieTemplate>> ReadAll()
+        {
+            using SQLiteAsyncConnection connection = _connectionFactory.CreateConnection();
+            return await connection.Table<AISerieTemplate>().ToListAsync();
+        }
 
-    public async Task Update(AISerieTemplate serieTemplate)
-    {
-        var sql =
-            "UPDATE AISerieTemplate SET Name = @Name, KG = @KG, Repetitions = @Repetitions, MuscleFailure = @MuscleFailure, AITemplateId = @AITemplateId WHERE Id = @Id";
-        await _connection.ExecuteAsync(sql, serieTemplate);
-    }
+        public async Task<AISerieTemplate> ReadById(int id)
+        {
+            using SQLiteAsyncConnection connection = _connectionFactory.CreateConnection();
+            return await connection.FindAsync<AISerieTemplate>(id);
+        }
 
-    public async Task Delete(int id)
-    {
-        var sql = "DELETE FROM AISerieTemplate WHERE Id = @Id";
-        await _connection.ExecuteAsync(sql, new { Id = id });
-    }
+        public async Task Update(AISerieTemplate serieTemplate)
+        {
+            using SQLiteAsyncConnection connection = _connectionFactory.CreateConnection();
+            await connection.UpdateAsync(serieTemplate);
+        }
 
-    public async Task<IEnumerable<AISerieTemplate>> GetByTemplateId(int templateId)
-    {
-        var sql = "SELECT * FROM AISerieTemplate WHERE AITemplateId = @AITemplateId";
-        return await _connection.QueryAsync<AISerieTemplate>(sql, new { AITemplateId = templateId });
+        public async Task Delete(int id)
+        {
+            using SQLiteAsyncConnection connection = _connectionFactory.CreateConnection();
+            await connection.DeleteAsync<AISerieTemplate>(id);
+        }
+
+        public async Task<List<AISerieTemplate>> GetByTemplateId(int templateId)
+        {
+            using SQLiteAsyncConnection connection = _connectionFactory.CreateConnection();
+            return await connection.Table<AISerieTemplate>()
+                .Where(st => st.AITemplateId == templateId)
+                .ToListAsync();
+        }
+
+        ~AISerieTemplateDao()
+        {
+            Dispose();
+        }
     }
 }

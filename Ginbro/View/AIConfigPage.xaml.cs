@@ -1,16 +1,17 @@
 using Ginbro.Shared;
 using Ginbro.ViewModel;
+using Microsoft.Maui.Controls;
 
-csharp
-
-namespace Ginbro.View;
+namespace Ginbro.View; 
 
 public partial class AIConfigPage : ContentPage
 {
-    public AIConfigPage(SqliteConnectionFactory connectionFactory)
+    private readonly AIConfigViewModel _viewModel;
+    public AIConfigPage(AIConfigViewModel viewModel)
     {
         InitializeComponent();
-        var connection = connectionFactory.GetConnectionSync();
-        BindingContext = new AiConfigViewModel(connection);
+        _viewModel = viewModel;
+        BindingContext = _viewModel;
+        _viewModel.LoadAITemplates();
     }
 }
