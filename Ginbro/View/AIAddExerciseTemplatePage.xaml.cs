@@ -25,7 +25,6 @@ namespace Ginbro.View
         {
             await _viewModel.SaveExerciseTemplate();
             await Navigation.PopAsync();
-            
         }
     }
 }

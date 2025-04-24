@@ -1,9 +1,10 @@
-csharp
+
 using Dapper;
 using Ginbro.AI_Model;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ginbro.AIModel;
 
 namespace Ginbro.AI_Data
 {

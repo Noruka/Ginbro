@@ -1,23 +1,24 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"          
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:Ginbro.ViewModel"
              x:Class="Ginbro.View.AIHomePage"
              Title="Home"
              x:DataType="viewmodel:AIHomeViewModel">
     <VerticalStackLayout>
-        
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="1" Text="Config" HorizontalOptions="End" Command="{Binding GoToConfigCommand}"/>
+            <Button Grid.Column="1" Text="Config" HorizontalOptions="End" Command="{Binding GoToConfigCommand}" />
         </Grid>
 
         <CollectionView x:Name="ExercisesCollectionView" ItemsSource="{Binding AIExercises}">
@@ -32,7 +33,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        
-        <Button Text="Add Exercise" Margin="10" Command="{Binding AddAIExerciseCommand}"/>
+
+        <Button Text="Add Exercise" Margin="10" Command="{Binding AddAIExerciseCommand}" />
     </VerticalStackLayout>
 </ContentPage>

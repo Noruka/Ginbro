@@ -5,13 +5,13 @@
              x:Class="Ginbro.DetailPage"
              xmlns:viewmodel="clr-namespace:Ginbro.ViewModel"
              x:DataType="viewmodel:DetailViewModel">
-    
+
     <ContentPage.Content>
         <StackLayout>
             <Label Text="{Binding Id}"
                    FontSize="25"
                    VerticalOptions="Center"
-                   HorizontalOptions="Center"/>
+                   HorizontalOptions="Center" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

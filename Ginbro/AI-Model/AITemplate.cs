@@ -1,13 +1,11 @@
---- a/Ginbro/AI-Model/AITemplate.cs
-+++ b/Ginbro/AI-Model/AITemplate.cs
+using System.ComponentModel.DataAnnotations;
 
-+namespace Ginbro.AIModel;
+namespace Ginbro.AIModel;
 
-+public class AITemplate
-+{
-+    [Key]
-+    public int Id { get; set; }
-+
-+    [Required]
-+    public string Name { get; set; }
-+}
+public class AITemplate
+
+{
+    [Key] public int Id { get; set; }
+
+    [Required] public string Name { get; set; }
+}

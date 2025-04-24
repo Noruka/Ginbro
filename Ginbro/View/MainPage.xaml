@@ -34,26 +34,26 @@
                                 <SwipeItem Text="Delete"
                                            BackgroundColor="Red"
                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DeleteCommand}"
-                                           CommandParameter="{Binding .}"/>
+                                           CommandParameter="{Binding .}" />
                             </SwipeItems>
                         </SwipeView.RightItems>
-                        
-                    <Grid Padding="0,5">
-                        <Frame>
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer 
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=TapCommand}"
-                                    CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout> 
-                                <Label Text="{Binding .Name}"
-                                       FontSize="24" />
-                                <Label Text="{Binding .Date}"
-                                       FontSize="24" />
-                            </StackLayout>
-                                
-                        </Frame>
-                    </Grid>
+
+                        <Grid Padding="0,5">
+                            <Frame>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=TapCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </Frame.GestureRecognizers>
+                                <StackLayout>
+                                    <Label Text="{Binding .Name}"
+                                           FontSize="24" />
+                                    <Label Text="{Binding .Date}"
+                                           FontSize="24" />
+                                </StackLayout>
+
+                            </Frame>
+                        </Grid>
                     </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

@@ -1,4 +1,4 @@
-using Ginbro.AI_Model;
+using Ginbro.AIModel;
 using SQLite;
 
 namespace Ginbro.Shared;
@@ -11,17 +11,19 @@ public class SqliteConnectionFactory
     {
         _databasePath = Path.Combine(FileSystem.AppDataDirectory, "ginbro.db3");
     }
-    
+
     public async Task<ISQLiteAsyncConnection> CreateConnectionAsync()
     {
-        var connection = new SQLiteAsyncConnection(_databasePath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache);
+        var connection = new SQLiteAsyncConnection(_databasePath,
+            SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache);
         await CreateTablesAsync(connection);
         return connection;
     }
 
     public SQLiteConnection CreateConnection()
     {
-        var connection = new SQLiteConnection(_databasePath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache);
+        var connection = new SQLiteConnection(_databasePath,
+            SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache);
         CreateTables(connection);
         return connection;
     }

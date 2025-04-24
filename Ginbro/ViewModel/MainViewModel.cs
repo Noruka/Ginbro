@@ -10,44 +10,43 @@ namespace Ginbro.ViewModel;
 public partial class MainViewModel : ObservableObject
 {
     private readonly SqliteConnectionFactory _connection;
+
+    [ObservableProperty] private ObservableCollection<Exercise> _items;
+
+    [ObservableProperty] private string _text = string.Empty;
+
     public MainViewModel(SqliteConnectionFactory connection)
     {
         Items = new ObservableCollection<Exercise>();
         _connection = connection;
-        
+
         LoadExercisesCommand.Execute(null);
     }
-    
-    [ObservableProperty]
-    private ObservableCollection<Exercise> _items;
-    
-    [ObservableProperty]
-    private string _text = String.Empty;
 
     [RelayCommand]
     private async Task Add()
     {
         if (string.IsNullOrWhiteSpace(Text))
             return;
-        
-        ISQLiteAsyncConnection database = _connection.CreateConnection();
 
-        ExerciseDto ticketDto = new ExerciseDto()
+        var database = _connection.CreateConnection();
+
+        var ticketDto = new ExerciseDto
         {
             Name = _text,
             Date = DateTime.Now
         };
-        
+
         await database.InsertAsync(ticketDto);
-        
-        Items.Add(new Exercise()
+
+        Items.Add(new Exercise
         {
             Name = ticketDto.Name,
             Id = ticketDto.Id,
             Series = new List<Serie>(),
             Date = ticketDto.Date
         });
-        
+
         Text = string.Empty;
     }
 
@@ -59,7 +58,7 @@ public partial class MainViewModel : ObservableObject
         var exerciseDto = await database.Table<ExerciseDto>().FirstOrDefaultAsync(w => w.Id == exercise.Id);
 
         await database.DeleteAsync(exerciseDto);
-        
+
         _items.Remove(exercise);
     }
 
@@ -74,17 +73,15 @@ public partial class MainViewModel : ObservableObject
     {
         ISQLiteAsyncConnection database = _connection.CreateConnection();
         _items.Clear();
-        
+
         var exercisesDtos = await database.Table<ExerciseDto>().ToListAsync();
-            
+
         foreach (var exerciseDto in exercisesDtos)
-        {
-            _items.Add(new Exercise()
+            _items.Add(new Exercise
             {
                 Id = exerciseDto.Id,
                 Name = exerciseDto.Name ?? string.Empty,
                 Date = exerciseDto.Date
             });
-        }
     }
 }

@@ -1,9 +1,10 @@
-csharp
+
 using Dapper;
 using Ginbro.AI_Model;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ginbro.AIModel;
 
 namespace Ginbro.AIData;
 
@@ -18,7 +19,8 @@ public class AISerieTemplateDao : IDisposable
 
     public async Task<int> Create(AISerieTemplate serieTemplate)
     {
-        var sql = "INSERT INTO AISerieTemplate (Name, KG, Repetitions, MuscleFailure, AITemplateId) VALUES (@Name, @KG, @Repetitions, @MuscleFailure, @AITemplateId); SELECT last_insert_rowid();";
+        var sql =
+            "INSERT INTO AISerieTemplate (Name, KG, Repetitions, MuscleFailure, AITemplateId) VALUES (@Name, @KG, @Repetitions, @MuscleFailure, @AITemplateId); SELECT last_insert_rowid();";
         return await _connection.ExecuteScalarAsync<int>(sql, serieTemplate);
     }
 
@@ -36,7 +38,8 @@ public class AISerieTemplateDao : IDisposable
 
     public async Task Update(AISerieTemplate serieTemplate)
     {
-        var sql = "UPDATE AISerieTemplate SET Name = @Name, KG = @KG, Repetitions = @Repetitions, MuscleFailure = @MuscleFailure, AITemplateId = @AITemplateId WHERE Id = @Id";
+        var sql =
+            "UPDATE AISerieTemplate SET Name = @Name, KG = @KG, Repetitions = @Repetitions, MuscleFailure = @MuscleFailure, AITemplateId = @AITemplateId WHERE Id = @Id";
         await _connection.ExecuteAsync(sql, serieTemplate);
     }
 

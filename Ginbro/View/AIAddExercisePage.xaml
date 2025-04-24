@@ -1,5 +1,6 @@
 xaml
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Ginbro.View.AIAddExercisePage"
@@ -17,11 +18,11 @@ xaml
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button Text="Save" 
+        <Button Text="Save"
                 Command="{Binding SaveExerciseCommand}"
                 Clicked="SaveButton_Clicked"
-                VerticalOptions="End" 
-                HorizontalOptions="Center" 
+                VerticalOptions="End"
+                HorizontalOptions="Center"
                 Margin="10" />
     </Grid>
 </ContentPage>

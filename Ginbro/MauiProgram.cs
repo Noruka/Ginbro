@@ -1,10 +1,7 @@
 using Ginbro.AI_Data;
+using Ginbro.AIData;
 using Ginbro.Shared;
 using Ginbro.View;
-using Ginbro.ViewModel;
-using Ginbro.Shared;
-using Ginbro.View;
-using Ginbro.ViewModel;
 using Ginbro.ViewModel;
 using Microsoft.Extensions.Logging;
 
@@ -22,7 +19,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
-        
+
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
@@ -52,8 +49,6 @@ public static class MauiProgram
         builder.Services.AddTransient<AIConfigPage>();
         builder.Services.AddTransient<AIHomePage>();
         builder.Services.AddTransient<AIDetailPage>();
-
-
 
 
         return builder.Build();

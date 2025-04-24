@@ -1,24 +1,20 @@
---- a/Ginbro/AI-Model/AISerieTemplate.cs
-+++ b/Ginbro/AI-Model/AISerieTemplate.cs
 
- using SQLite;
 
- namespace Ginbro.AIModel;
+using SQLite;
 
- public class AISerieTemplate
- {
-     [PrimaryKey, AutoIncrement]
-     public int Id { get; set; }
+namespace Ginbro.AIModel;
 
-     [MaxLength(255)]
-     public string Name { get; set; }
+public class AISerieTemplate
+{
+    [PrimaryKey] [AutoIncrement] public int Id { get; set; }
 
-     public decimal KG { get; set; }
+    [MaxLength(255)] public string Name { get; set; }
 
-     public int Repetitions { get; set; }
+    public decimal KG { get; set; }
 
-     public bool MuscleFailure { get; set; }
+    public int Repetitions { get; set; }
 
-     [Indexed]
-     public int AITemplateId { get; set; }
- }
+    public bool MuscleFailure { get; set; }
+
+    [Indexed] public int AITemplateId { get; set; }
+}

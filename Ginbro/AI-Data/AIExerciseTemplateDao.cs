@@ -1,4 +1,4 @@
-csharp
+
 using Ginbro.Shared;
 using Ginbro.AI_Model;
 using SQLite;

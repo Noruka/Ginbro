@@ -1,5 +1,6 @@
 ﻿using Ginbro.Model;
 using Ginbro.Shared;
+using SQLite;
 
 namespace Ginbro;
 
@@ -16,12 +17,11 @@ public partial class App : Application
         _connection = connection;
     }
 
-    protected override async void OnStart()
+    protected override void OnStart()
     {
-        var database = _connection.CreateConnection();
+        ISQLiteConnection database = _connection.CreateConnection();
+        database.CreateTable<ExerciseDto>();
 
-        await database.CreateTableAsync<ExerciseDto>();
-        
         base.OnStart();
     }
 }

@@ -5,8 +5,5 @@ namespace Ginbro.ViewModel;
 [QueryProperty("Id", "Id")]
 public partial class DetailViewModel : ObservableObject
 {
-    [ObservableProperty]
-    private int id;
-    
-    
+    [ObservableProperty] private int id;
 }

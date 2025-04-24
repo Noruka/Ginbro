@@ -4,7 +4,8 @@ xaml
              x:Class="Ginbro.View.AIAddExerciseTemplatePage"
              Title="Add Exercise Template">
     <VerticalStackLayout>
-        <Entry x:Name="TemplateNameEntry" Placeholder="Template Name" Margin="10" Text="{Binding ExerciseTemplate.Name}"/>
+        <Entry x:Name="TemplateNameEntry" Placeholder="Template Name" Margin="10"
+               Text="{Binding ExerciseTemplate.Name}" />
         <CollectionView x:Name="SeriesCollectionView" ItemsSource="{Binding Series}" Margin="10">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -14,7 +15,7 @@ xaml
                             <Entry Placeholder="KG" Text="{Binding Kg}" Keyboard="Numeric" />
                             <Entry Placeholder="Repetitions" Text="{Binding Repetitions}" Keyboard="Numeric" />
                             <CheckBox IsChecked="{Binding MuscleFailure}" />
-                            <Label Text="Muscle Failure"/>
+                            <Label Text="Muscle Failure" />
                         </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>
